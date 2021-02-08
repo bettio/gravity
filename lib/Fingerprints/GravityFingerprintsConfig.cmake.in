@@ -1,0 +1,73 @@
+
+if (CMAKE_VERSION VERSION_LESS 2.8.3)
+    message(FATAL_ERROR "Gravity requires at least CMake version 2.8.3")
+endif()
+
+get_filename_component(_gravityFingerprints_install_prefix @CMAKE_INSTALL_PREFIX@ ABSOLUTE)
+
+# For backwards compatibility only. Use GravityFingerprints_VERSION instead.
+set(GravityFingerprints_VERSION_STRING @HEMERA_GRAVITY_VERSION@)
+
+set(GravityFingerprints_LIBRARIES Gravity::Fingerprints)
+
+if (NOT TARGET Gravity::Fingerprints)
+
+    set(_GravityFingerprints_OWN_INCLUDE_DIRS @FINGERPRINTS_INCLUDE_DIRS@)
+    set(GravityFingerprints_INCLUDE_DIRS ${_GravityFingerprints_OWN_INCLUDE_DIRS})
+
+    set(GravityFingerprints_DEFINITIONS "")
+    set(GravityFingerprints_COMPILE_DEFINITIONS "")
+
+    set(_GravityFingerprints_MODULE_DEPENDENCIES "Supermassive")
+
+    set(_GravityFingerprints_FIND_DEPENDENCIES_REQUIRED)
+    if (GravityFingerprints_FIND_REQUIRED)
+        set(_GravityFingerprints_FIND_DEPENDENCIES_REQUIRED REQUIRED)
+    endif()
+    set(_GravityFingerprints_FIND_DEPENDENCIES_QUIET)
+    if (GravityFingerprints_FIND_QUIETLY)
+        set(_GravityFingerprints_DEPENDENCIES_FIND_QUIET QUIET)
+    endif()
+    set(_GravityFingerprints_FIND_VERSION_EXACT)
+    if (GravityFingerprints_FIND_VERSION_EXACT)
+        set(_GravityFingerprints_FIND_VERSION_EXACT EXACT)
+    endif()
+
+    foreach(_module_dep ${_GravityFingerprints_MODULE_DEPENDENCIES})
+        if (NOT Gravity${_module_dep}_FOUND)
+            find_package(Gravity${_module_dep}
+                ${GravityFingerprints_VERSION_STRING} ${_GravityFingerprints_FIND_VERSION_EXACT}
+                ${_GravityFingerprints_DEPENDENCIES_FIND_QUIET}
+                ${_GravityFingerprints_FIND_DEPENDENCIES_REQUIRED}
+                PATHS "${CMAKE_CURRENT_LIST_DIR}/.." NO_DEFAULT_PATH
+            )
+        endif()
+
+        if (NOT Gravity${_module_dep}_FOUND)
+            set(GravityFingerprints_FOUND False)
+            return()
+        endif()
+
+        list(APPEND GravityFingerprints_INCLUDE_DIRS "${Gravity${_module_dep}_INCLUDE_DIRS}")
+        list(APPEND GravityFingerprints_DEFINITIONS ${Gravity${_module_dep}_DEFINITIONS})
+        list(APPEND GravityFingerprints_COMPILE_DEFINITIONS ${Gravity${_module_dep}_COMPILE_DEFINITIONS})
+        list(APPEND GravityFingerprints_EXECUTABLE_COMPILE_FLAGS ${Gravity${_module_dep}_EXECUTABLE_COMPILE_FLAGS})
+    endforeach()
+    list(REMOVE_DUPLICATES GravityFingerprints_INCLUDE_DIRS)
+    list(REMOVE_DUPLICATES GravityFingerprints_DEFINITIONS)
+    list(REMOVE_DUPLICATES GravityFingerprints_COMPILE_DEFINITIONS)
+    if (GravityFingerprints_EXECUTABLE_COMPILE_FLAGS)
+        list(REMOVE_DUPLICATES GravityFingerprints_EXECUTABLE_COMPILE_FLAGS)
+    endif()
+
+    set(_GravityFingerprints_LIB_DEPENDENCIES "")
+
+    # Target management
+    include("${CMAKE_CURRENT_LIST_DIR}/GravityFingerprintsTargets.cmake")
+
+    set_property(TARGET Gravity::Fingerprints PROPERTY
+        INTERFACE_INCLUDE_DIRECTORIES ${_GravityFingerprints_OWN_INCLUDE_DIRS})
+    set_property(TARGET Gravity::Fingerprints PROPERTY
+        INTERFACE_COMPILE_DEFINITIONS ${GravityFingerprints_COMPILE_DEFINITIONS})
+
+endif()

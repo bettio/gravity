@@ -1,0 +1,35 @@
+[Unit]
+Description=User Manager for Star @NAME@
+Requires=gravity-center.service
+After=gravity-center.service
+After=systemd-user-sessions.service
+# Needs to start before graphical target is complete
+Before=graphical.target
+Requires=hemera-create-star-runtime-dir@@NAME@.service
+After=hemera-create-star-runtime-dir@@NAME@.service
+
+[Service]
+User=@USER@
+PAMName=login
+ControlGroup=%R/user/@USER@/shared cpu:/
+ControlGroupModify=yes
+
+Type=notify
+
+# No timeout
+TimeoutSec=0
+
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/@USER@/dbus/user_bus_socket
+Environment=XDG_RUNTIME_DIR=/run/user/@USER@
+Environment=HEMERA_STAR=@NAME@
+@ENVIRONMENT@
+
+# Common env files
+EnvironmentFile=-@HEMERA_GRAVITY_ENVIRONMENT_DIR@/common/*.conf
+
+# Graphics env files
+EnvironmentFile=-@HEMERA_GRAVITY_ENVIRONMENT_DIR@/stars/@NAME@/platform/*.conf
+EnvironmentFile=-@HEMERA_GRAVITY_ENVIRONMENT_DIR@/stars/@NAME@/*.conf
+
+# Start systemd
+ExecStart=/lib/systemd/systemd --user --unit=hemera-star-@NAME@.target

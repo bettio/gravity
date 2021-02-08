@@ -1,0 +1,20 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="com.ispirata.Hemera.Gravity.StarSequence">
+        <method name="Ignite" />
+        <method name="Collapse" />
+
+        <method name="reloadCurrentOrbit" />
+        <method name="requestOrbitSwitch">
+            <arg type="s" direction="in" />
+        </method>
+        <method name="inhibitOrbitSwitch">
+            <arg type="s" direction="in" />
+            <arg type="s" direction="in" />
+            <arg type="u" direction="out" />
+        </method>
+        <method name="releaseOrbitSwitchInhibition">
+            <arg type="u" direction="in" />
+        </method>
+  </interface>
+</node>

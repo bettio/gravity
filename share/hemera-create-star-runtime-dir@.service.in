@@ -1,0 +1,9 @@
+[Unit]
+Description=Star Runtime dir creation
+After=syslog.target
+# Activate only if the dir does not exist
+ConditionPathExists=!@HEMERA_STARS_RUNTIME_DIR@/%I
+
+[Service]
+Type=oneshot
+ExecStart=@FULL_INSTALL_BIN_DIR@/create-star-runtime-dir %I star-%I

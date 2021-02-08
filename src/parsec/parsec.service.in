@@ -1,0 +1,25 @@
+[Unit]
+Description=Hemera Orbit Manager
+Requires=dbus.service
+After=dbus-hemera-star.service
+After=dbus.service xorg.target hemera-window-manager.service hemera-system-compositor-on-x.service
+
+[Service]
+Type=notify
+
+ExecStart=@FULL_INSTALL_BIN_DIR@/parsec
+
+TimeoutStartSec=20s
+TimeoutStopSec=120s
+
+Restart=always
+WatchdogSec=30s
+
+StartLimitInterval=1min
+StartLimitBurst=2
+StartLimitAction=reboot
+
+[Exec]
+OOMScoreAdjust=-980
+
+[Install]

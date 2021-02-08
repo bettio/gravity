@@ -1,0 +1,13 @@
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<node>
+  <interface name="com.ispirata.Hemera.Gravity.SatelliteManager">
+    <method name="LaunchOrbitAsSatellite">
+      <arg type="s" direction="in" />
+    </method>
+    <method name="ShutdownSatellite">
+      <arg type="s" direction="in" />
+    </method>
+    <method name="ShutdownAllSatellites" />
+
+  </interface>
+</node>

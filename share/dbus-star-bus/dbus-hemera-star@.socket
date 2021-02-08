@@ -1,0 +1,10 @@
+#
+# This is the D-Bus socket for the Hemera star bus
+#
+
+[Unit]
+Description=D-Bus Hemera Star Message Bus Socket
+
+[Socket]
+ListenStream=/run/hemera/stars/%I/dbus/star_bus_socket
+UMask=0006

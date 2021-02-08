@@ -1,0 +1,23 @@
+[Unit]
+Description=Hemera Gravity Center
+After=local-fs.target hyperdrive.service
+Before=systemd-user-sessions.service
+Wants=hyperdrive.service
+
+[Service]
+Type=notify
+
+ExecStart=@FULL_INSTALL_BIN_DIR@/gravity-center
+
+TimeoutStartSec=20s
+TimeoutStopSec=120s
+
+@GRAVITY_RESTART_INSTRUCTIONS@
+
+[Exec]
+OOMScoreAdjust=-980
+
+[Install]
+Alias=display-manager.target
+WantedBy=basic.target
+

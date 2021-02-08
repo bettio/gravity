@@ -1,0 +1,37 @@
+[Unit]
+Description=User Manager for @ORBIT@ on %I@DEBUGSUPPORT@
+Requires=hemera-star-%i.service
+After=hemera-star-%i.service
+After=systemd-user-sessions.service
+
+[Service]
+User=@USER@
+Group=star-%I
+PAMName=login
+ControlGroup=%R/user/@USER@/shared cpu:/
+ControlGroupModify=yes
+# Do we want this?
+#TTYPath=/dev/tty1
+Type=notify
+# No timeout
+TimeoutSec=0
+Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/@USER@/dbus/user_bus_socket
+Environment=XDG_RUNTIME_DIR=/run/user/@USER@
+Environment=HEMERA_STAR=%I
+@ENVIRONMENT@
+
+# Common env files
+EnvironmentFile=-@HEMERA_GRAVITY_ENVIRONMENT_DIR@/common/*.conf
+
+# Graphics env files
+EnvironmentFile=-@HEMERA_GRAVITY_ENVIRONMENT_DIR@/stars/%I/platform/*.conf
+EnvironmentFile=-@HEMERA_GRAVITY_ENVIRONMENT_DIR@/stars/%I/*.conf
+
+# Orbit env files. We assume graphics env is already correct
+EnvironmentFile=-@HEMERA_GRAVITY_ENVIRONMENT_DIR@/orbits/@ORBIT@/*.conf
+
+@SATELLITE_ENVIRONMENT@
+
+# Start systemd
+ExecStart=/lib/systemd/systemd --user --unit=hemera-orbit-@ORBIT@@DEBUG@.target
+@EXIT_CLEANUP@

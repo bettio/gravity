@@ -1,0 +1,13 @@
+[Unit]
+Description=Remounts the rootfs in readwrite mode, and executes transition hooks
+After=local-fs.target
+Before=systemd-user-sessions.service
+
+[Service]
+Type=notify
+
+ExecStart=@FULL_INSTALL_BIN_DIR@/gravity-remount-helper --mode=rw
+ExecStop=@FULL_INSTALL_BIN_DIR@/gravity-remount-helper --mode=ro
+RemainAfterExit=yes
+
+OOMScoreAdjust=-980

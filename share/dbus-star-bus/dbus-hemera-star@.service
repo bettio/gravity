@@ -1,0 +1,13 @@
+#
+# This is the D-Bus service for Hemera Stars
+#
+
+[Unit]
+Description=D-Bus Hemera Star Message Bus
+Before=parsec.service
+Requires=dbus-hemera-star@%i.socket
+
+[Service]
+ExecStart=/bin/dbus-daemon --config-file=/etc/dbus-1/hemera-star-bus.conf --address=systemd: --nofork --systemd-activation
+ExecReload=/bin/dbus-send --print-reply --address=/run/hemera/stars/%I/dbus/star_bus_socket --type=method_call --dest=org.freedesktop.DBus / org.freedesktop.DBus.ReloadConfig
+OOMScoreAdjust=-850

@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# Arguments
+MOUNT_DIR=$1
+DEVICEKEY=$2
+
+umount $1
+UMOUNT_RET=$?
+if [ "${UMOUNT_RET}" != "0" ]; then
+    echo "umount failed with ${UMOUNT_RET}"
+    # this shouldn't happen, but lazy umount is still better than no umount
+    umount -l $1
+    exit 120
+fi
+
+if [ "${DEVICEKEY}" != "" ]; then
+    LOOPDEV=$(cryptsetup status hemerapkg | grep device | cut -d ':' -f 2 | sed 's/\s//g')
+
+    cryptsetup close hemerapkg
+    CRYPTSETUP_RET=$?
+    if [ "${CRYPTSETUP_RET}" != "0" ]; then
+        echo "cryptsetup failed with ${CRYPTSETUP_RET}"
+        cryptsetup close hemerapkg
+        # Continue, we have to try
+    fi
+
+    losetup -d ${LOOPDEV}
+    LOSETUP_RET=$?
+    if [ "${LOSETUP_RET}" != "0" ]; then
+        echo "Deleting loop device failed with ${LOSETUP_RET}"
+        # We use custom error codes to ease Gravity's job
+        exit 121
+    fi
+fi
+
+echo "Squash package unmounted successfully"
+
+exit 0
+

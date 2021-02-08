@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Arguments
+PACKAGE_FILENAME=$1
+MOUNT_DIR=$2
+DEVICEKEY=$3
+
+if [ "${DEVICEKEY}" != "" ]; then
+    # Setup loop device
+    LOOPDEV=$(losetup -f)
+    losetup ${LOOPDEV} ${PACKAGE_FILENAME}
+    LOSETUP_RET=$?
+    if [ "${LOSETUP_RET}" != "0" ]; then
+        echo "Setting up loop device failed with ${LOSETUP_RET}"
+        # We use custom error codes to ease Gravity's job
+        exit 121
+    fi
+
+    # Decrypt
+    echo $DEVICEKEY | cryptsetup -q open --type luks ${LOOPDEV} hemerapkg
+    CRYPTSETUP_RET=$?
+    if [ "${CRYPTSETUP_RET}" != "0" ]; then
+        echo "cryptsetup failed with ${CRYPTSETUP_RET}"
+        cryptsetup close hemerapkg
+        losetup -d ${LOOPDEV}
+        exit 122
+    fi
+
+    # Mount
+    mount -o ro /dev/mapper/hemerapkg ${MOUNT_DIR}
+    MOUNT_RET=$?
+    if [ "${MOUNT_RET}" != "0" ]; then
+        echo "mount failed with ${MOUNT_RET}"
+        cryptsetup close hemerapkg
+        losetup -d ${LOOPDEV}
+        exit 120
+    fi
+else
+    # Just mount
+    mount -t squashfs -o loop,ro ${PACKAGE_FILENAME} ${MOUNT_DIR}
+    MOUNT_RET=$?
+    if [ "${MOUNT_RET}" != "0" ]; then
+        echo "mount failed with ${MOUNT_RET}"
+        cryptsetup close hemerapkg
+        losetup -d ${LOOPDEV}
+        exit 120
+    fi
+fi
+
+echo "Squash package mounted successfully"
+
+exit 0

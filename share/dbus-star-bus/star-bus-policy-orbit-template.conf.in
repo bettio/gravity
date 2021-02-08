@@ -1,0 +1,13 @@
+<!-- This config is for the star bus -->
+
+<!DOCTYPE busconfig PUBLIC
+ "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+<busconfig>
+
+  <!-- The orbit can own the services representing its applications. -->
+  <policy user="@USER@">
+    @ALLOW_OWN_MULTIPLE@
+  </policy>
+
+</busconfig>

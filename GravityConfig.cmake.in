@@ -1,0 +1,46 @@
+
+if (CMAKE_VERSION VERSION_LESS 2.8.9)
+    message(FATAL_ERROR "Gravity requires at least CMake version 2.8.9")
+endif()
+
+if (NOT Gravity_FIND_COMPONENTS)
+    set(Gravity_NOT_FOUND_MESSAGE "The Gravity package requires at least one component")
+    set(Gravity_FOUND False)
+    return()
+endif()
+
+set(_Gravity_FIND_PARTS_REQUIRED)
+if (Gravity_FIND_REQUIRED)
+    set(_Gravity_FIND_PARTS_REQUIRED REQUIRED)
+endif()
+set(_Gravity_FIND_PARTS_QUIET)
+if (Gravity_FIND_QUIETLY)
+    set(_Gravity_FIND_PARTS_QUIET QUIET)
+endif()
+
+get_filename_component(_gravity_install_prefix "${CMAKE_CURRENT_LIST_DIR}/.." ABSOLUTE)
+
+set(_Gravity_NOTFOUND_MESSAGE)
+
+foreach(module ${Gravity_FIND_COMPONENTS})
+    find_package(Gravity${module}
+        ${_Gravity_FIND_PARTS_QUIET}
+        ${_Gravity_FIND_PARTS_REQUIRED}
+        PATHS "${_gravity_install_prefix}" NO_DEFAULT_PATH
+    )
+    if (NOT Gravity${module}_FOUND)
+        if (Gravity_FIND_REQUIRED_${module})
+            set(_Gravity_NOTFOUND_MESSAGE "${_Gravity_NOTFOUND_MESSAGE}Failed to find Gravity component \"${module}\" config file at \"${_gravity_install_prefix}/Gravity${module}/Gravity${module}Config.cmake\"\n")
+        elseif(NOT Gravity_FIND_QUIETLY)
+            message(WARNING "Failed to find Gravity component \"${module}\" config file at \"${_gravity_install_prefix}/Gravity${module}/Gravity${module}Config.cmake\"")
+        endif()
+    endif()
+endforeach()
+
+if (_Gravity_NOTFOUND_MESSAGE)
+    set(Gravity_NOT_FOUND_MESSAGE "${_Gravity_NOTFOUND_MESSAGE}")
+    set(Gravity_FOUND False)
+endif()
+
+# Macros
+include("${CMAKE_CURRENT_LIST_DIR}/GravityPaths.cmake")

@@ -1,0 +1,25 @@
+[Unit]
+Description=Weston compositor for Star @NAME@
+Requires=dbus.socket
+After=dbus.socket
+
+[Service]
+Type=notify
+NotifyAccess=all
+Restart=on-failure
+
+# This environment is intentionally here! We need it for starting up weston-launch
+# The global star environment should be inherited, if everything went according to plans.
+EnvironmentFile=-/usr/share/hemera/environment/adaptation/weston/*.conf
+
+ExecStart=/usr/bin/weston-launch --tty=@TTY_NUMBER@ -- $WESTON_GENERIC_ARGUMENTS $WESTON_ADAPTATION_ARGUMENTS
+
+# Weston must handle its TTY
+TTYPath=/dev/tty@TTY_NUMBER@
+# Get input from it...
+StandardInput=tty
+# ... but don't print crap on the screen for any reason.
+StandardOutput=journal
+
+# Lower privileges
+UMask=0007

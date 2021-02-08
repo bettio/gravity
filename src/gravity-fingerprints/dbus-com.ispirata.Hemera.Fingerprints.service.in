@@ -1,0 +1,10 @@
+[Unit]
+Description=Hemera Fingerprints Daemon
+
+[Service]
+Type=dbus
+BusName=com.ispirata.Hemera.Fingerprints
+ExecStart=@FULL_INSTALL_BIN_DIR@/gravity-fingerprints
+
+[Install]
+Alias=com.ispirata.Hemera.Fingerprints.service

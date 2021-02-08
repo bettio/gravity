@@ -1,0 +1,11 @@
+prefix=@CMAKE_INSTALL_PREFIX@
+exec_prefix=${prefix}
+libdir=@INSTALL_LIB_DIR@
+includedir=@INSTALL_INCLUDE_DIR@/Gravity
+
+Name: Gravity Supermassive
+Description: Gravity Supermassive module
+Version: @HEMERA_GRAVITY_VERSION@
+Libs: -L${libdir} -lsupermassive
+Cflags: -I${includedir}/Supermassive -I${includedir}
+Requires: HemeraQt5SDKCore >= 0.90.0 Qt5Core >= 5.6.0 Qt5DBus >= 5.6.0 Qt5Network >= 5.6.0 libsystemd-daemon libsystemd-journal

@@ -1,0 +1,18 @@
+<!DOCTYPE busconfig PUBLIC
+ "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+<busconfig>
+
+  <!-- This star can get all properties and talk to its star sequence -->
+  <policy user="@USER@">
+    <allow send_destination="com.ispirata.Hemera.GravityCenter" send_interface="com.ispirata.Hemera.Gravity.StarSequence" send_path="/com/ispirata/Hemera/Gravity/Galaxy/Star/@NAME@/StarSequence"/>
+    <allow receive_sender="com.ispirata.Hemera.GravityCenter" receive_interface="com.ispirata.Hemera.Gravity.StarSequence" receive_path="/com/ispirata/Hemera/Gravity/Galaxy/Star/@NAME@/StarSequence"/>
+    <allow send_destination="com.ispirata.Hemera.GravityCenter" send_interface="com.ispirata.Hemera.DBusObject" send_path="/com/ispirata/Hemera/Gravity/Galaxy/Star/@NAME@/StarSequence"/>
+    <allow receive_sender="com.ispirata.Hemera.GravityCenter" receive_interface="com.ispirata.Hemera.DBusObject" receive_path="/com/ispirata/Hemera/Gravity/Galaxy/Star/@NAME@/StarSequence"/>
+    <allow send_destination="com.ispirata.Hemera.GravityCenter" send_interface="com.ispirata.Hemera.Gravity.SatelliteManager" send_path="/com/ispirata/Hemera/Gravity/Galaxy/Star/@NAME@/SatelliteManager"/>
+    <allow receive_sender="com.ispirata.Hemera.GravityCenter" receive_interface="com.ispirata.Hemera.Gravity.SatelliteManager" receive_path="/com/ispirata/Hemera/Gravity/Galaxy/Star/@NAME@/SatelliteManager"/>
+    <allow send_destination="com.ispirata.Hemera.GravityCenter" send_interface="com.ispirata.Hemera.DBusObject" send_path="/com/ispirata/Hemera/Gravity/Galaxy/Star/@NAME@/SatelliteManager"/>
+    <allow receive_sender="com.ispirata.Hemera.GravityCenter" receive_interface="com.ispirata.Hemera.DBusObject" receive_path="/com/ispirata/Hemera/Gravity/Galaxy/Star/@NAME@/SatelliteManager"/>
+  </policy>
+
+</busconfig>

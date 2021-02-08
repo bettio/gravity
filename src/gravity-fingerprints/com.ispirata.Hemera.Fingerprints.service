@@ -1,0 +1,5 @@
+[D-BUS Service]
+Name=com.ispirata.Hemera.Fingerprints
+Exec=/bin/false
+User=root
+SystemdService=dbus-com.ispirata.Hemera.Fingerprints.service

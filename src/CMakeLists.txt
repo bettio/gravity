@@ -1,0 +1,5 @@
+add_subdirectory(gravity-center)
+add_subdirectory(gravity-fingerprints)
+add_subdirectory(gravity-remount-helper)
+add_subdirectory(gravity-user-manager)
+add_subdirectory(parsec)

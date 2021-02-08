@@ -1,0 +1,23 @@
+#!/bin/bash
+
+HEMERA_STAR_NAME="${1}"
+HEMERA_STAR_USER="${2}"
+STARS_PATH="@HEMERA_STARS_RUNTIME_DIR@/"
+STAR_PATH="@HEMERA_STARS_RUNTIME_DIR@/${HEMERA_STAR_NAME}"
+
+if [ ! -d "${STARS_PATH}" ]; then
+  mkdir -p "${STARS_PATH}"
+  chown root:root "${STARS_PATH}"
+  chmod 555 "${STARS_PATH}"
+fi
+mkdir "${STAR_PATH}"
+chown "${HEMERA_STAR_USER}:${HEMERA_STAR_USER}" "${STAR_PATH}"
+chmod 770 "${STAR_PATH}"
+
+mkdir "${STAR_PATH}/planet"
+chown "${HEMERA_STAR_USER}:${HEMERA_STAR_USER}" "${STAR_PATH}/planet"
+chmod 770 "${STAR_PATH}/planet"
+
+mkdir "${STAR_PATH}/systemcompositor"
+chown "${HEMERA_STAR_USER}:${HEMERA_STAR_USER}" "${STAR_PATH}/systemcompositor"
+chmod 770 "${STAR_PATH}/systemcompositor"

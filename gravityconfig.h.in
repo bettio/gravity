@@ -1,0 +1,29 @@
+#ifndef GRAVITYCONFIG_H
+#define GRAVITYCONFIG_H
+
+namespace Gravity {
+
+namespace StaticConfig {
+
+Q_DECL_CONSTEXPR const char *configGravityPath() { return "@HEMERA_GRAVITY_GRAVITY_DIR@"; }
+Q_DECL_CONSTEXPR const char *configOrbitPath() { return "@HEMERA_GRAVITY_ORBIT_DIR@"; }
+Q_DECL_CONSTEXPR const char *hemeraServicesPath() { return "@HEMERA_SERVICE_DIR@"; }
+Q_DECL_CONSTEXPR const char *hemeraEnvironmentPath() { return "@HEMERA_GRAVITY_ENVIRONMENT_DIR@/environment"; }
+Q_DECL_CONSTEXPR const char *hemeraQmlImportsPath() { return "@HEMERAQTSDK_QML_PLUGINS_DIR@"; }
+Q_DECL_CONSTEXPR const char *hemeraToolsPath() { return "@HA_TOOLS_DIR@"; }
+Q_DECL_CONSTEXPR const char *gravityCenterPluginsPath() { return "@FULL_INSTALL_PLUGINS_DIR@"; }
+Q_DECL_CONSTEXPR const char *gravityRemountHelperHooksPath() { return "@FULL_INSTALL_REMOUNT_HOOKS_DIR@"; }
+Q_DECL_CONSTEXPR const char *gravityQmlConfigFiles() { return "@HEMERA_GRAVITY_CONFIGS_DIR@"; }
+Q_DECL_CONSTEXPR const char *gravityUsersListPath() { return "@HEMERA_GRAVITY_USERLISTS_DIR@"; }
+Q_DECL_CONSTEXPR const char *hemeraDataDir() { return "@HA_SDK_DATA_DIR@"; }
+Q_DECL_CONSTEXPR const char *hemeraFingerprintsPluginsPath() { return "@FULL_INSTALL_FINGERPRINTS_PLUGINS_DIR@"; }
+Q_DECL_CONSTEXPR const char *hemeraApplianceCryptoPluginsPath() { return "@FULL_INSTALL_APPLIANCECRYPTO_PLUGINS_DIR@"; }
+Q_DECL_CONSTEXPR const char *hemeraStarsRuntimeDir() { return "@HEMERA_STARS_RUNTIME_DIR@"; }
+Q_DECL_CONSTEXPR const char *hemeraUserHomeDir() { return "@HEMERA_GRAVITY_USER_HOME_DIR@"; }
+Q_DECL_CONSTEXPR QLatin1String binInstallDir() { return QLatin1String("@FULL_INSTALL_BIN_DIR@"); }
+
+}
+
+}
+
+#endif
